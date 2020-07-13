@@ -1,0 +1,58 @@
+﻿@model ProductModel
+@{
+    if (Model.SelectedPage == 0)
+    {
+        Model.SelectedPage = 1;
+    }
+    int next = Model.SelectedPage + 1;
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= Model.PaginationCount; i++)
+        {
+            if (string.IsNullOrEmpty(Model.Category))
+            {
+                if (Model.SelectedPage == i)
+                {
+                    <li class="page-item @(Model.SelectedPage==i?"active":"")"><a class="page-link" href="/products?page=@i">@i</a></li>
+
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="/products?page=@i">@i</a></li>
+                }
+            }
+            else
+            {
+                if (Model.SelectedPage == i)
+                {
+                    <li class="page-item @(Model.SelectedPage==i?"active":"")"><a class="page-link" href="/products/@Model.Category?page=@i">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="/products/@Model.Category?page=@i">@i</a></li>
+                }
+            }
+
+        }
+        <li class="page-item">
+            @if (next <= Model.PaginationCount && Model.Category == null)
+            {
+                <a class="page-link" href="/products?page=@next">Next</a>
+            }
+            else if (next <= Model.PaginationCount && Model.Category != null)
+            {
+                <a class="page-link" href="/products/@Model.Category?page=@next">Next</a>
+            }
+            else if (next > Model.PaginationCount && Model.Category != null)
+            {
+                <a class="page-link" href="/products/@Model.Category?page=@Model.PaginationCount">Next</a>
+            }
+            else
+            {
+                <a class="page-link" href="/products?page=@Model.PaginationCount">Next</a>
+            }
+        </li>
+
+    </ul>
+</nav>
